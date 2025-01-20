@@ -1,48 +1,84 @@
-﻿var sale1 = new Sale(15);
-var beer1 = new Beer();
+﻿
+var numbers = new MyList<int>(5);
+var names = new MyList<string>(5);
+var beers = new MyList<Beer>(2);
 
-Some(sale1);
-Some(beer1);
+numbers.Add(1);
+numbers.Add(2);
+numbers.Add(3);
+numbers.Add(4);
+numbers.Add(5);
+numbers.Add(6);
+Console.WriteLine(numbers.GetContent());
 
-void Some(ISave save)
+names.Add("John1");
+names.Add("Doe2");
+names.Add("Jane3");
+names.Add("Doe4");
+names.Add("John5");
+names.Add("Doe6");
+names.Add("Doe7");
+Console.WriteLine(names.GetContent());
+
+beers.Add(new Beer()
 {
-    save.Save();
-}
-
-
-interface ISale
+    Names = "Beer1",
+    Price = 5
+});
+beers.Add(new Beer()
 {
-    decimal Total { get; set; }
-
-}
-
-interface ISave
+    Names = "Beer2",
+    Price = 6
+});
+beers.Add(new Beer()
 {
-    public void Save();
-}
+    Names = "Beer3",
+    Price = 7
+});
+Console.WriteLine(beers.GetContent());
 
-public class Sale : ISale, ISave
+
+internal class Beer
 {
-    public decimal Total { get; set; }
-    public Sale(decimal total)
+    public string Names { get; set; }
+    public int Price { get; set; }
+
+    public override string ToString()
     {
-        this.Total = total;
+        return $"Name: {Names} | Price: {Price}";
+    }
+}
+
+public class MyList<T>
+{
+    private List<T> _list = new List<T>();
+    private int _limit;
+    public MyList(int limit)
+    {
+        _limit = limit;
+        _list = new List<T>();
     }
 
-    public void Save()
+    public void Add(T element)
     {
-        Console.WriteLine("It was saved in the Sale DB!!");
+        Console.WriteLine("_list.Count: " + _list.Count + " _limit: " + _limit);
+        if (_list.Count < _limit)
+        {
+            _list.Add(element);
+        }
+        else
+        {
+            Console.WriteLine("Limit exceeded!!");
+        }
     }
-    public string GetInfo()
-    {
-        return "The total is " + Total;
-    }
-}
 
-public class Beer : ISave
-{
-    public void Save()
+    public string GetContent()
     {
-        Console.WriteLine("It was saved in the Beer DB!!");
+        var content = "";
+        foreach (var element in _list)
+        {
+            content += element + ", ";
+        }
+        return content;
     }
 }
