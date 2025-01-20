@@ -1,56 +1,48 @@
-﻿using System.Dynamic;
+﻿var sale1 = new Sale(15);
+var beer1 = new Beer();
 
-Sale sale = new Sale(15);
-var message = sale.GetInfo();
+Some(sale1);
+Some(beer1);
 
-Console.WriteLine(message);
-
-var saleWithTax = new SaleWithTax(15, 1.16m);
-var messageWithTax = saleWithTax.GetInfoWithTax();
-var messageWithTax2 = saleWithTax.GetInfoWithTax();
-Console.WriteLine(messageWithTax);
-Console.WriteLine(messageWithTax2);
-
-Console.WriteLine(saleWithTax.GetInfo("Hello World"));
-Console.WriteLine(saleWithTax.GetInfo(1));
-
-
-class SaleWithTax : Sale
+void Some(ISave save)
 {
-    public decimal Tax { get; set; }
-    public SaleWithTax(decimal total, decimal tax) : base(total)
-    {
-        this.Tax = tax;
-    }
-    public string GetInfoWithTax()
-    {
-        return "The total is: " + Total + " Tax is: " + Tax;
-    }
-    public override string GetInfo()    // override the method in the parent class
-    {
-        return "The total is: " + Total + " Tax is: " + Tax;
-    }
-    public string GetInfo(string message) // method overloading to have multiple parameters with the same name
-    {
-        return message;
-    }
-    public string GetInfo(int a) // method overloading to have multiple parameters with the same name
-    {
-        return a.ToString();
-    }
+    save.Save();
 }
 
-public class Sale
+
+interface ISale
+{
+    decimal Total { get; set; }
+
+}
+
+interface ISave
+{
+    public void Save();
+}
+
+public class Sale : ISale, ISave
 {
     public decimal Total { get; set; }
-    private decimal _some;
     public Sale(decimal total)
     {
         this.Total = total;
-        _some = 8;
     }
-    public virtual string GetInfo() // virtual allows to override the method in the child class
+
+    public void Save()
+    {
+        Console.WriteLine("It was saved in the Sale DB!!");
+    }
+    public string GetInfo()
     {
         return "The total is " + Total;
+    }
+}
+
+public class Beer : ISave
+{
+    public void Save()
+    {
+        Console.WriteLine("It was saved in the Beer DB!!");
     }
 }
