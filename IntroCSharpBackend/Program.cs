@@ -1,27 +1,40 @@
 ﻿
-using System.Text.Json;
+//var show = Show;
 
-var baz = new People()
+//Show("Hello, World!");
+
+//Some(show, "Hello, How are you?!");
+
+//void Show(string message)
+//{
+//    Console.WriteLine(message);
+//}
+
+//void Some(Action<string> fn, string message) //return nothing
+//{
+//    show("Does something at the start...");
+//    fn(message);
+//    Console.WriteLine("Does somthing at the end...");
+//}
+
+
+//--------------------------------------------------------------
+
+var show = Show;
+
+Some(show, "Hello, How are you?!");
+
+string Show(string message)
 {
-    Name = "Baz",
-    Age = 31,
-};
-
-string json = JsonSerializer.Serialize(baz);
-
-Console.WriteLine(json);
-
-string myJson = @"{
-    ""Name"":""Buzz"",
-    ""Age"":31
-}";
-
-People? buz = JsonSerializer.Deserialize<People>(myJson);
-Console.WriteLine(buz?.Name);
-Console.WriteLine(buz?.Age);
-
-public class People
-{
-    public string Name { get; set; }
-    public int Age { get; set; }
+    return message.ToUpper();
 }
+
+void Some(Func<string, string> fn, string message) //return something
+{
+    Console.WriteLine(show("Does something at the start..."));
+    Console.WriteLine(fn(message));
+    Console.WriteLine("Does somthing at the end...");
+}
+
+
+
