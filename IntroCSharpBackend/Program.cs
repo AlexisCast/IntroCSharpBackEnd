@@ -1,40 +1,23 @@
 ﻿
-//var show = Show;
+/*
+Func<int, int, int> sub = (a, b) => a - b;
 
-//Show("Hello, World!");
+Func<int, int> some = a => a * 2;
 
-//Some(show, "Hello, How are you?!");
-
-//void Show(string message)
-//{
-//    Console.WriteLine(message);
-//}
-
-//void Some(Action<string> fn, string message) //return nothing
-//{
-//    show("Does something at the start...");
-//    fn(message);
-//    Console.WriteLine("Does somthing at the end...");
-//}
-
-
-//--------------------------------------------------------------
-
-var show = Show;
-
-Some(show, "Hello, How are you?!");
-
-string Show(string message)
+Func<int, int> some2 = a =>
 {
-    return message.ToUpper();
-}
+    a = a + 2;
+    return a;
+};
 
-void Some(Func<string, string> fn, string message) //return something
+int subResult = sub(10, 5);
+
+Console.WriteLine(subResult);
+*/
+
+
+Some((a, b) => a + b, 5);
+void Some(Func<int, int, int> fn, int number)
 {
-    Console.WriteLine(show("Does something at the start..."));
-    Console.WriteLine(fn(message));
-    Console.WriteLine("Does somthing at the end...");
+    var result = fn(number, number);
 }
-
-
-
