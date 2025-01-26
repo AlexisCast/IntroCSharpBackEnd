@@ -1,23 +1,22 @@
 ﻿
-/*
-Func<int, int, int> sub = (a, b) => a - b;
+var names = new List<string> { "John", "Mary", "Sue", "Ana" };
 
-Func<int, int> some = a => a * 2;
+var namesRestults = from n in names
+                    where n.Length > 3 && n.Contains("a")
+                    orderby n descending
+                    select n;
 
-Func<int, int> some2 = a =>
+var namesRestults2 = names
+                    .Where(n => n.Length > 3 && n.Contains("a"))
+                    .OrderByDescending(n => n)
+                    .Select(n => n);
+
+foreach (var name in namesRestults)
 {
-    a = a + 2;
-    return a;
-};
+    Console.WriteLine(name);
+}
 
-int subResult = sub(10, 5);
-
-Console.WriteLine(subResult);
-*/
-
-
-Some((a, b) => a + b, 5);
-void Some(Func<int, int, int> fn, int number)
+foreach (var name in namesRestults2)
 {
-    var result = fn(number, number);
+    Console.WriteLine(name);
 }
