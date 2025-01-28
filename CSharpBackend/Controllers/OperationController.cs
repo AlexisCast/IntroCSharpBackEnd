@@ -13,8 +13,14 @@ namespace CSharpBackend.Controllers
             return a + b;
         }
         [HttpPost]
-        public decimal Add(Numbers numbers)
+        public decimal Add(Numbers numbers, [FromHeader] string Host,
+            [FromHeader(Name = "Content-Length")] string ConntentLength,
+            [FromHeader(Name = "X-Some")] string Some
+            )
         {
+            Console.WriteLine(Host);
+            Console.WriteLine(ConntentLength);
+            Console.WriteLine(Some);
             return numbers.A - numbers.B;
         }
         [HttpPut]
