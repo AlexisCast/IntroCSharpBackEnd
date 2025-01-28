@@ -12,6 +12,18 @@ namespace CSharpBackend.Controllers
         {
             return Repository.People;
         }
+
+        [HttpGet("{id}")]
+        public People Get(int id)
+        {
+            return Repository.People.First(p => p.Id == id);
+        }
+
+        [HttpGet("search/{search}")]
+        public List<People> Get(string search)
+        {
+            return Repository.People.Where(p => p.Name.ToUpper().Contains(search.ToUpper())).ToList();
+        }
     }
 
     public class Repository
