@@ -14,9 +14,16 @@ namespace CSharpBackend.Controllers
         }
 
         [HttpGet("{id}")]
-        public People Get(int id)
+        public ActionResult<People> Get(int id)
         {
-            return Repository.People.First(p => p.Id == id);
+            var people = Repository.People.FirstOrDefault(p => p.Id == id);
+
+            if (people == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(people);
         }
 
         [HttpGet("search/{search}")]
