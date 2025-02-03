@@ -3,7 +3,9 @@ using CSharpBackend.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton<IPeopleService, People2Service>();
+//builder.Services.AddSingleton<IPeopleService, People2Service>();
+builder.Services.AddKeyedScoped<IPeopleService, PeopleService>("peopleService");
+builder.Services.AddKeyedScoped<IPeopleService, People2Service>("people2Service");
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
