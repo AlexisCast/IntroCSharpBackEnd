@@ -26,5 +26,26 @@ namespace CSharpBackend.Controllers
 
             return Ok(stopwatch.Elapsed);
         }
+
+        [HttpGet("async")]
+        public async Task<IActionResult> GetAsync()
+        {
+            var task1 = new Task<int>(() =>
+            {
+                Thread.Sleep(2500);
+                Console.WriteLine("Conection to a DB finished...");
+                return 8;
+            });
+
+            task1.Start();
+
+            Console.WriteLine("Do other thing...");
+
+            var result1 = await task1;
+
+            Console.WriteLine("Everything has finished...");
+
+            return Ok(result1);
+        }
     }
 }
