@@ -30,22 +30,35 @@ namespace CSharpBackend.Controllers
         [HttpGet("async")]
         public async Task<IActionResult> GetAsync()
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            stopwatch.Start();
+
             var task1 = new Task<int>(() =>
             {
                 Thread.Sleep(2500);
                 Console.WriteLine("Conection to a DB finished...");
-                return 8;
+                return 1;
+            });
+
+            var task2 = new Task<int>(() =>
+            {
+                Thread.Sleep(2500);
+                Console.WriteLine("Email sent finished...");
+                return 2;
             });
 
             task1.Start();
+            task2.Start();
 
             Console.WriteLine("Do other thing...");
 
             var result1 = await task1;
+            var result2 = await task2;
 
             Console.WriteLine("Everything has finished...");
 
-            return Ok(result1);
+            stopwatch.Stop();
+            return Ok(result1 + " " + result2 + " " + stopwatch.Elapsed);
         }
     }
 }
