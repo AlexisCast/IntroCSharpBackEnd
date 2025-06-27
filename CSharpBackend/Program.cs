@@ -1,4 +1,6 @@
+using CSharpBackend.Models;
 using CSharpBackend.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,9 +15,16 @@ builder.Services.AddKeyedTransient<IRandomService, RandomService>("randomTransie
 
 builder.Services.AddScoped<IPostService, PostService>();
 
+// HttpClient configuration for jsonplaceholder
 builder.Services.AddHttpClient<IPostService, PostService>(c =>
 {
     c.BaseAddress = new Uri(builder.Configuration["BaseUrlPost"]);
+});
+
+// Entity Framework
+builder.Services.AddDbContext<StoreContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("StoreConnection"));
 });
 
 builder.Services.AddControllers();
