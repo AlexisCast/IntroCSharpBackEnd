@@ -73,5 +73,32 @@ namespace CSharpBackend.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = beer.BeerID }, beerDto);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, BeerUpdateDto beerUpdateDto)
+        {
+            var beer = await _context.Beers.FindAsync(id);
+
+            if (beer == null)
+            {
+                return NotFound();
+            }
+
+            beer.Name = beerUpdateDto.Name;
+            beer.Alcohol = beerUpdateDto.Alcohol;
+            beer.BrandID = beerUpdateDto.BrandId;
+
+            await _context.SaveChangesAsync();
+
+            var beerDto = new BeerDto
+            {
+                Id = beer.BeerID,
+                Name = beer.Name,
+                Alcohol = beer.Alcohol,
+                BrandId = beer.BrandID,
+            };
+
+            return Ok(beerDto);
+        }
     }
 }
