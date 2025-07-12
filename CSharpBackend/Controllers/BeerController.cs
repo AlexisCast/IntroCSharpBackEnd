@@ -52,25 +52,9 @@ namespace CSharpBackend.Controllers
                 return BadRequest(validationResult.Errors);
             }
 
-            var beer = new Beer
-            {
-                Name = beerInsertDto.Name,
-                Alcohol = beerInsertDto.Alcohol,
-                BrandID = beerInsertDto.BrandId
-            };
+            var beerDto = await _beerService.Add(beerInsertDto);
 
-            await _context.Beers.AddAsync(beer); // Add the new beer to the context
-            await _context.SaveChangesAsync(); // Save changes to the database
-
-            var beerDto = new BeerDto
-            {
-                Id = beer.BeerID,
-                Name = beer.Name,
-                Alcohol = beer.Alcohol,
-                BrandId = beer.BrandID,
-            };
-
-            return CreatedAtAction(nameof(GetById), new { id = beer.BeerID }, beerDto);
+            return CreatedAtAction(nameof(GetById), new { id = beerDto.Id }, beerDto);
         }
 
         [HttpPut("{id}")]
