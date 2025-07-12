@@ -1,17 +1,47 @@
 ﻿using CSharpBackend.DTOs;
+using CSharpBackend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CSharpBackend.Services
 {
     public class BeerService : IBeerService
     {
-        public Task<IEnumerable<BeerDto>> Get()
+        private StoreContext _context;
+
+        public BeerService(StoreContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<BeerDto> GetById(int id)
+        public async Task<IEnumerable<BeerDto>> Get()
         {
-            throw new NotImplementedException();
+            return await _context.Beers.Select(b => new BeerDto
+            {
+                Id = b.BeerID,
+                Name = b.Name,
+                Alcohol = b.Alcohol,
+                BrandId = b.BrandID,
+            }).ToListAsync();
+        }
+
+        public async Task<BeerDto> GetById(int id)
+        {
+            var beer = await _context.Beers.FindAsync(id);
+
+            if (beer != null)
+            {
+                var beerDto = new BeerDto
+                {
+                    Id = beer.BeerID,
+                    Name = beer.Name,
+                    Alcohol = beer.Alcohol,
+                    BrandId = beer.BrandID,
+                };
+
+                return beerDto;
+            }
+
+            return null;
         }
 
         public Task<BeerDto> Add(BeerInsertDto beerInsertDto)

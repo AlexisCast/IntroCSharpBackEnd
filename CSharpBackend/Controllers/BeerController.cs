@@ -12,17 +12,17 @@ namespace CSharpBackend.Controllers
     [ApiController]
     public class BeerController : ControllerBase
     {
-        private StoreContext _context;
+        private StoreContext _context; // will be removed(_context)
         private IValidator<BeerInsertDto> _beerInsertValidator;
         private IValidator<BeerUpdateDto> _beerUpdateValidator;
         private IBeerService _beerService;
 
-        public BeerController(StoreContext context,
+        public BeerController(StoreContext context, // will be removed(context)
             IValidator<BeerInsertDto> beerInsertValidator,
             IValidator<BeerUpdateDto> beerUpdateValidator,
             IBeerService beerService)
         {
-            _context = context;
+            _context = context; // will be removed(context)
             _beerInsertValidator = beerInsertValidator;
             _beerUpdateValidator = beerUpdateValidator;
             _beerService = beerService;
@@ -31,34 +31,15 @@ namespace CSharpBackend.Controllers
         [HttpGet]
         public async Task<IEnumerable<BeerDto>> Get()
         {
-            return await _context.Beers.Select(b => new BeerDto
-            {
-                Id = b.BeerID,
-                Name = b.Name,
-                Alcohol = b.Alcohol,
-                BrandId = b.BrandID,
-            }).ToListAsync();
+            return await _beerService.Get();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<BeerDto>> GetById(int id)
         {
-            var beer = await _context.Beers.FindAsync(id);
+            var beerDto = await _beerService.GetById(id);
 
-            if (beer == null)
-            {
-                return NotFound();
-            }
-
-            var beerDto = new BeerDto
-            {
-                Id = beer.BeerID,
-                Name = beer.Name,
-                Alcohol = beer.Alcohol,
-                BrandId = beer.BrandID,
-            };
-
-            return Ok(beerDto);
+            return beerDto != null ? Ok(beerDto) : NotFound();
         }
 
         [HttpPost]
