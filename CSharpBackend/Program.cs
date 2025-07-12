@@ -18,6 +18,8 @@ builder.Services.AddKeyedTransient<IRandomService, RandomService>("randomTransie
 
 builder.Services.AddScoped<IPostService, PostService>();
 
+builder.Services.AddScoped<IBeerService, BeerService>();
+
 // HttpClient configuration for jsonplaceholder
 builder.Services.AddHttpClient<IPostService, PostService>(c =>
 {
