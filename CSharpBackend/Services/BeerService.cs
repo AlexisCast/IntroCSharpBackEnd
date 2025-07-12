@@ -67,9 +67,30 @@ namespace CSharpBackend.Services
             return beerDto;
         }
 
-        public Task<BeerDto> Update(int id, BeerUpdateDto beerUpdateDto)
+        public async Task<BeerDto> Update(int id, BeerUpdateDto beerUpdateDto)
         {
-            throw new NotImplementedException();
+            var beer = await _context.Beers.FindAsync(id);
+
+            if (beer != null)
+            {
+                beer.Name = beerUpdateDto.Name;
+                beer.Alcohol = beerUpdateDto.Alcohol;
+                beer.BrandID = beerUpdateDto.BrandId;
+
+                await _context.SaveChangesAsync();
+
+                var beerDto = new BeerDto
+                {
+                    Id = beer.BeerID,
+                    Name = beer.Name,
+                    Alcohol = beer.Alcohol,
+                    BrandId = beer.BrandID,
+                };
+
+                return beerDto;
+            }
+
+            return null;
         }
 
         public Task<BeerDto> Delete(int id)
