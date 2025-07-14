@@ -4,6 +4,7 @@ using CSharpBackend.Services;
 using CSharpBackend.Validators;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,7 @@ builder.Services.AddKeyedTransient<IRandomService, RandomService>("randomTransie
 
 builder.Services.AddScoped<IPostService, PostService>();
 
-builder.Services.AddScoped<IBeerService, BeerService>();
+builder.Services.AddKeyedScoped<ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto>, BeerService>("beerService");
 
 // HttpClient configuration for jsonplaceholder
 builder.Services.AddHttpClient<IPostService, PostService>(c =>
