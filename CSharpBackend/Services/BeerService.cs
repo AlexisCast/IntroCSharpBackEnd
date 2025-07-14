@@ -1,32 +1,37 @@
 ﻿using CSharpBackend.DTOs;
 using CSharpBackend.Models;
+using CSharpBackend.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace CSharpBackend.Services
 {
     public class BeerService : ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto>
     {
-        private StoreContext _context;
-
-        public BeerService(StoreContext context)
+        private StoreContext _context; // _context will be removed
+        private IRepository<Beer> _beerRepository;
+        public BeerService(StoreContext context, // _context will be removed
+            IRepository<Beer> beerRepository)
         {
             _context = context;
+            _beerRepository = beerRepository;
         }
 
         public async Task<IEnumerable<BeerDto>> Get()
         {
-            return await _context.Beers.Select(b => new BeerDto
+            var beers = await _beerRepository.Get();
+
+            return beers.Select(b => new BeerDto
             {
                 Id = b.BeerID,
                 Name = b.Name,
                 Alcohol = b.Alcohol,
                 BrandId = b.BrandID,
-            }).ToListAsync();
+            });
         }
 
         public async Task<BeerDto> GetById(int id)
         {
-            var beer = await _context.Beers.FindAsync(id);
+            var beer = await _beerRepository.GetById(id);
 
             if (beer != null)
             {
