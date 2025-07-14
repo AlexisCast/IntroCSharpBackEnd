@@ -23,10 +23,8 @@ namespace CSharpBackend.Repository
             return await _context.Beers.FindAsync(id);
         }
 
-        public Task Add(Beer entity)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task Add(Beer entity)
+            => await _context.Beers.AddAsync(entity);
 
         public void Update(Beer entity)
         {
@@ -38,10 +36,8 @@ namespace CSharpBackend.Repository
             throw new NotImplementedException();
         }
 
-        public Task Save()
-        {
-            throw new NotImplementedException();
-        }
+        public async Task Save()
+            => await _context.SaveChangesAsync();
 
     }
 }
