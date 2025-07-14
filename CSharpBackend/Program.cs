@@ -1,5 +1,6 @@
 using CSharpBackend.DTOs;
 using CSharpBackend.Models;
+using CSharpBackend.Repository;
 using CSharpBackend.Services;
 using CSharpBackend.Validators;
 using FluentValidation;
@@ -26,6 +27,9 @@ builder.Services.AddHttpClient<IPostService, PostService>(c =>
 {
     c.BaseAddress = new Uri(builder.Configuration["BaseUrlPost"]);
 });
+
+// Repository
+builder.Services.AddScoped<IRepository<Beer>, BeerRepository>();
 
 // Entity Framework
 builder.Services.AddDbContext<StoreContext>(options =>
