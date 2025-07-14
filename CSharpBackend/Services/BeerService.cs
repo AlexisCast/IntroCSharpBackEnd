@@ -93,9 +93,28 @@ namespace CSharpBackend.Services
             return null;
         }
 
-        public Task<BeerDto> Delete(int id)
+        public async Task<BeerDto> Delete(int id)
         {
-            throw new NotImplementedException();
+            var beer = await _context.Beers.FindAsync(id);
+
+            if (beer != null)
+            {
+                _context.Beers.Remove(beer); // One way to remove
+                //_context.Remove(beer); // Another way to remove
+                await _context.SaveChangesAsync();
+
+                var beerDto = new BeerDto
+                {
+                    Id = beer.BeerID,
+                    Name = beer.Name,
+                    Alcohol = beer.Alcohol,
+                    BrandId = beer.BrandID,
+                };
+
+                return beerDto;
+            }
+
+            return null;
         }
     }
 }
