@@ -33,9 +33,8 @@ namespace CSharpBackend.Repository
         }
 
         public void Delete(Beer entity)
-        {
-            throw new NotImplementedException();
-        }
+            => _context.Beers.Remove(entity);
+
 
         public async Task Save()
             => await _context.SaveChangesAsync();
