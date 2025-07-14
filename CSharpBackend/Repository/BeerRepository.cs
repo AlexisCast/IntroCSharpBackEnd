@@ -28,7 +28,8 @@ namespace CSharpBackend.Repository
 
         public void Update(Beer entity)
         {
-            throw new NotImplementedException();
+            _context.Beers.Attach(entity);
+            _context.Beers.Entry(entity).State = EntityState.Modified;
         }
 
         public void Delete(Beer entity)
