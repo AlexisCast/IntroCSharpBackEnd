@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CSharpBackend.Services
 {
-    public class BeerService : IBeerService
+    public class BeerService : ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto>
     {
         private StoreContext _context;
 

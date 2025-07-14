@@ -12,17 +12,15 @@ namespace CSharpBackend.Controllers
     [ApiController]
     public class BeerController : ControllerBase
     {
-        private StoreContext _context; // will be removed(_context)
         private IValidator<BeerInsertDto> _beerInsertValidator;
         private IValidator<BeerUpdateDto> _beerUpdateValidator;
-        private IBeerService _beerService;
+        private ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto> _beerService;
 
-        public BeerController(StoreContext context, // will be removed(context)
+        public BeerController(
             IValidator<BeerInsertDto> beerInsertValidator,
             IValidator<BeerUpdateDto> beerUpdateValidator,
-            IBeerService beerService)
+            [FromKeyedServices("beerService")] ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto> beerService)
         {
-            _context = context; // will be removed(context)
             _beerInsertValidator = beerInsertValidator;
             _beerUpdateValidator = beerUpdateValidator;
             _beerService = beerService;
