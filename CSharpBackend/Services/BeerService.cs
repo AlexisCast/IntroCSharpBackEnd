@@ -74,7 +74,7 @@ namespace CSharpBackend.Services
 
         public async Task<BeerDto> Update(int id, BeerUpdateDto beerUpdateDto)
         {
-            var beer = await _context.Beers.FindAsync(id);
+            var beer = await _beerRepository.GetById(id);
 
             if (beer != null)
             {
@@ -82,7 +82,8 @@ namespace CSharpBackend.Services
                 beer.Alcohol = beerUpdateDto.Alcohol;
                 beer.BrandID = beerUpdateDto.BrandId;
 
-                await _context.SaveChangesAsync();
+                _beerRepository.Update(beer);
+                await _beerRepository.Save(); // Save changes to the database
 
                 var beerDto = new BeerDto
                 {
