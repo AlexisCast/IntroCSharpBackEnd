@@ -1,4 +1,5 @@
-﻿using CSharpBackend.DTOs;
+﻿using AutoMapper;
+using CSharpBackend.DTOs;
 using CSharpBackend.Models;
 using CSharpBackend.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -8,10 +9,13 @@ namespace CSharpBackend.Services
     public class BeerService : ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto>
     {
         private IRepository<Beer> _beerRepository;
+        private IMapper _mapper;
         public BeerService(
-            IRepository<Beer> beerRepository)
+            IRepository<Beer> beerRepository,
+            IMapper mapper)
         {
             _beerRepository = beerRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<BeerDto>> Get()
@@ -49,12 +53,7 @@ namespace CSharpBackend.Services
 
         public async Task<BeerDto> Add(BeerInsertDto beerInsertDto)
         {
-            var beer = new Beer
-            {
-                Name = beerInsertDto.Name,
-                Alcohol = beerInsertDto.Alcohol,
-                BrandID = beerInsertDto.BrandId
-            };
+            var beer = _mapper.Map<Beer>(beerInsertDto); // Map DTO to Model
 
             await _beerRepository.Add(beer); // Add the new beer to the context
             await _beerRepository.Save(); // Save changes to the database

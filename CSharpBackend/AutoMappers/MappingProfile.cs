@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using CSharpBackend.DTOs;
+using CSharpBackend.Models;
 
 namespace CSharpBackend.AutoMappers
 {
@@ -6,7 +8,7 @@ namespace CSharpBackend.AutoMappers
     {
         public MappingProfile()
         {
-
+            CreateMap<BeerInsertDto, Beer>();
         }
     }
 }
