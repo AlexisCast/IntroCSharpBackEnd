@@ -58,8 +58,8 @@ namespace CSharpBackend.Services
                 BrandID = beerInsertDto.BrandId
             };
 
-            await _context.Beers.AddAsync(beer); // Add the new beer to the context
-            await _context.SaveChangesAsync(); // Save changes to the database
+            await _beerRepository.Add(beer); // Add the new beer to the context
+            await _beerRepository.Save(); // Save changes to the database
 
             var beerDto = new BeerDto
             {
