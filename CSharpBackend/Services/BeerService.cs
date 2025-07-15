@@ -22,13 +22,7 @@ namespace CSharpBackend.Services
         {
             var beers = await _beerRepository.Get();
 
-            return beers.Select(b => new BeerDto
-            {
-                Id = b.BeerID,
-                Name = b.Name,
-                Alcohol = b.Alcohol,
-                BrandId = b.BrandID,
-            });
+            return beers.Select(b => _mapper.Map<BeerDto>(b)); // Map Model back to DTO
         }
 
         public async Task<BeerDto> GetById(int id)
@@ -37,13 +31,7 @@ namespace CSharpBackend.Services
 
             if (beer != null)
             {
-                var beerDto = new BeerDto
-                {
-                    Id = beer.BeerID,
-                    Name = beer.Name,
-                    Alcohol = beer.Alcohol,
-                    BrandId = beer.BrandID,
-                };
+                var beerDto = _mapper.Map<BeerDto>(beer); // Map Model back to DTO
 
                 return beerDto;
             }
@@ -58,13 +46,7 @@ namespace CSharpBackend.Services
             await _beerRepository.Add(beer); // Add the new beer to the context
             await _beerRepository.Save(); // Save changes to the database
 
-            var beerDto = new BeerDto
-            {
-                Id = beer.BeerID,
-                Name = beer.Name,
-                Alcohol = beer.Alcohol,
-                BrandId = beer.BrandID,
-            };
+            var beerDto = _mapper.Map<BeerDto>(beer); // Map Model back to DTO
 
             return beerDto;
         }
@@ -82,13 +64,7 @@ namespace CSharpBackend.Services
                 _beerRepository.Update(beer);
                 await _beerRepository.Save(); // Save changes to the database
 
-                var beerDto = new BeerDto
-                {
-                    Id = beer.BeerID,
-                    Name = beer.Name,
-                    Alcohol = beer.Alcohol,
-                    BrandId = beer.BrandID,
-                };
+                var beerDto = _mapper.Map<BeerDto>(beer); // Map Model back to DTO
 
                 return beerDto;
             }
@@ -106,13 +82,15 @@ namespace CSharpBackend.Services
                 //_context.Remove(beer); // Another way to remove
                 await _beerRepository.Save();
 
-                var beerDto = new BeerDto
-                {
-                    Id = beer.BeerID,
-                    Name = beer.Name,
-                    Alcohol = beer.Alcohol,
-                    BrandId = beer.BrandID,
-                };
+                var beerDto = _mapper.Map<BeerDto>(beer); // Map Model back to DTO
+
+                //var beerDto = new BeerDto
+                //{
+                //    Id = beer.BeerID,
+                //    Name = beer.Name,
+                //    Alcohol = beer.Alcohol,
+                //    BrandId = beer.BrandID,
+                //};
 
                 return beerDto;
             }
