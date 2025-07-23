@@ -17,6 +17,7 @@ namespace CSharpBackend.Services
         {
             _beerRepository = beerRepository;
             _mapper = mapper;
+            Errors = new List<string>();
         }
 
         public async Task<IEnumerable<BeerDto>> Get()
@@ -101,11 +102,21 @@ namespace CSharpBackend.Services
 
         public bool Validate(BeerInsertDto beerInsertDto)
         {
+            if (_beerRepository.Search(b => b.Name == beerInsertDto.Name).Count() > 0)
+            {
+                Errors.Add("A beer cannot have the same name as one that already exists.");
+                return false;
+            }
             return true;
         }
 
         public bool Validate(BeerUpdateDto beerUpdateDto)
         {
+            if (_beerRepository.Search(b => b.Name == beerUpdateDto.Name && beerUpdateDto.Id != b.BeerID).Count() > 0)
+            {
+                Errors.Add("A beer cannot have the same name as one that already exists.");
+                return false;
+            }
             return true;
         }
     }
